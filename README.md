@@ -2,7 +2,7 @@
 
 This repository contains my implementations of the **5 beginner PyTorch projects** from the FreeCodeCamp YouTube tutorial.
 
-I followed the tutorial closely but also made sure to understand each part of the code and add my own insights where necessary.
+I followed the tutorial closely but also made sure to understand each part of the code.
 
 ---
 
@@ -51,3 +51,4 @@ Each project has its own folder containing:
 ## Acknowledgement
 
 Based on the [Learn PyTorch with 5 Beginner Projects - FreeCodeCamp](https://www.youtube.com/watch?v=V_xro1bcAuA) tutorial.
+
