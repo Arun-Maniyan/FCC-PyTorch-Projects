@@ -75,7 +75,3 @@ pip install torch torchvision pandas scikit-learn matplotlib pillow
 3. Run the notebook to preprocess data, define the model, and train the classifier.  
 
 ---
-
-## References
-
-- [Project Notebook](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/50120928/ae529d7b-b170-44df-99d5-de34ab87b2b2/pytorch-project-2-animal-face-recognition.ipynb)
