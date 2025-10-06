@@ -1,56 +1,73 @@
-Sarcasm Detection with PyTorch and Transformers
-This project detects sarcasm in news headlines using deep learning and natural language processing techniques, leveraging PyTorch and state-of-the-art transformer models.
+# Sarcasm Detection with PyTorch and Transformers
 
-Key Libraries Used
-PyTorch: Main framework for model building, training, and tensor operations.
+This project detects sarcasm in news headlines using deep learning and natural language processing techniques. It leverages PyTorch and state-of-the-art transformer models to classify headlines as sarcastic or not.
 
-Transformers (HuggingFace): Provides the AutoTokenizer and AutoModel, enabling the use of pre-trained BERT ("bert-base-uncased") for embedding headlines.
+---
 
-Pandas & NumPy: For dataset loading, manipulation, and array operations.
+## Key Libraries Used
 
-scikit-learn: Used for train-test splits and metrics like accuracy.
+- **PyTorch**: Main framework for model building, training, and tensor operations.  
+- **Transformers (HuggingFace)**: Provides `AutoTokenizer` and `AutoModel`, enabling the use of pre-trained BERT (`bert-base-uncased`) for embedding headlines.  
+- **Pandas & NumPy**: For dataset loading, manipulation, and array operations.  
+- **scikit-learn**: Used for train-test splits and evaluation metrics like accuracy.  
+- **Matplotlib**: For plotting training and validation loss and accuracy curves.  
 
-Matplotlib: For plotting training and validation loss and accuracy curves[search_files_v2:1].
+---
 
-Data Preprocessing
-Dataset: Headlines and their sarcasm annotations are loaded from SarcasmHeadlinesDataset.json.
+## Data Preprocessing
 
-Cleaning: Missing entries and duplicates are dropped, and unnecessary columns (like article links) are removed.
+- **Dataset**: Headlines and their sarcasm annotations are loaded from `SarcasmHeadlinesDataset.json`.  
+- **Cleaning**: Missing entries and duplicates are dropped. Unnecessary columns, such as article links, are removed.  
+- **Splits**: Data is split into training, validation, and testing sets using `train_test_split` from scikit-learn.  
+- **Tokenization**: Headlines are tokenized using `AutoTokenizer` from transformers, with padding, truncation, and maximum length limits. Tokenized sequences are converted into tensors suitable for BERT input.  
 
-Splits: Data is split into training, validation, and testing sets using train_test_split from scikit-learn.
+---
 
-Tokenization: Headlines are tokenized using AutoTokenizer from transformers, with padding, truncation, and length limits, converted into tensors ready for BERT input[search_files_v2:1].
+## Training Pipeline
 
-Training Pipeline
-Custom Dataset Class: Implements torch Dataset for efficient batching, tokenization, and device movement of headlines and labels.
+### Custom Dataset Class
+- Implements `torch.utils.data.Dataset` for efficient batching, tokenization, and device movement of headlines and labels.  
 
-DataLoader: Utilizes torch DataLoader with mini-batching and shuffling for all splits.
+### DataLoader
+- Utilizes `torch.utils.data.DataLoader` for mini-batching and shuffling across all splits.  
 
-Model Architecture:
+### Model Architecture
+- **MyModel**: A custom class extending `nn.Module`, using a pre-trained BERT as a feature extractor (frozen during training).  
+- The pooled BERT output passes through:
+  - Two linear layers with ReLU activations  
+  - Dropout for regularization  
+  - Sigmoid activation for binary classification  
 
-A custom MyModel class extends nn.Module, using a pre-trained BERT as a feature extractor (frozen during training).
+### Loss and Optimization
+- **Loss Function**: Binary Cross-Entropy Loss (`nn.BCELoss`)  
+- **Optimizer**: Adam  
 
-The pooled BERT output passes through two linear layers with ReLU activation, dropout, and a sigmoid for binary classification.
+### Training Loop
+- Batches are passed through the model for each epoch.  
+- Loss and accuracy are tracked for both training and validation sets.  
+- Validation is performed after each epoch to monitor overfitting.  
+- Final evaluation on the test set reports an accuracy of approximately **86%**.  
 
-Loss and Optimization: Binary Cross-Entropy Loss (nn.BCELoss) with the Adam optimizer.
+---
 
-Training Loop:
+## Key Concepts
 
-For each epoch, batches are passed through the model.
+- **Transfer Learning**: Uses a pre-trained BERT model as a robust language feature extractor.  
+- **Fine-Tuning**: While BERT is frozen, the final classifier head is trained on the sarcasm dataset, demonstrating partial model retraining.  
+- **Tokenization & Embeddings**: Uses transformer-based contextual embeddings for better performance over traditional NLP pipelines.  
+- **Efficient Batching & Device Management**: Ensures tensors and models are consistently moved to GPU if available.  
+- **Model Evaluation**: Accuracy metrics and visualization of loss/accuracy curves across epochs help detect overfitting or underfitting.  
 
-Loss and accuracy are tracked for both training and validation sets.
+---
 
-Validation is run after each epoch to monitor overfitting.
+## Visualization
+- Training and validation loss/accuracy curves are plotted using Matplotlib for monitoring model performance across epochs.  
 
-Test set evaluation reports final accuracy (around 86%)[search_files_v2:1].
+---
 
-Key Concepts
-Transfer Learning: Uses a pre-trained BERT model as a robust language feature extractor for the new classification task.
+## Usage
 
-Fine-Tuning: While BERT is frozen in this project, the final classifier head is trained on the sarcasm dataset, demonstrating partial model retraining.
+1. Install dependencies:
 
-Tokenization & Embeddings: Explores the impact of transformer-based contextual embeddings over traditional NLP pipelines.
-
-Efficient Batching and Device Management: Ensures tensors and models are consistently moved to GPU if available for speed.
-
-Model Evaluation: Accuracy metrics and visualization of loss/accuracy curves across epochs to detect overfitting or underfitting[search_files_v2:1].
+```bash
+pip install torch transformers pandas scikit-learn matplotlib
